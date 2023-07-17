@@ -37,7 +37,7 @@ const Customizer = () => {
       case "colorpicker":
         return <ColorPicker />;
       case "filepicker":
-        return <FilePicker file={file} setFile={setFile} />;
+        return <FilePicker file={file} setFile={setFile} readFile={readFile} />;
       case "aipicker":
         return <AIPicker />;
 
@@ -71,7 +71,7 @@ const Customizer = () => {
   };
 
   const readFile = (type) => {
-    reader(file).then((res) => {
+    reader(file).then((result) => {
       handleDecals(type, result);
       setactiveEditorTab("");
     });
