@@ -57,6 +57,21 @@ const Customizer = () => {
     if (!prompt) return alert("Please enter a prompt");
 
     try {
+      setgeneratingImg(true);
+      const response = await fetch("http://localhost:8080/api/v1/dalle", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt,
+        }),
+      });
+
+      const data = await response.json();
+
+      handleDecals(type, `data:image/png;base64,${data.photo}`);
+
       //calls backend to generate AI img
     } catch (error) {
       alert(error);
@@ -87,6 +102,7 @@ const Customizer = () => {
       default:
         state.isLogoTexture = true;
         state.isFullTexture = false;
+        break;
     }
 
     setactiveFilterTab((prevState) => {
@@ -155,6 +171,13 @@ const Customizer = () => {
                 }}
               />
             ))}
+            <button className="download-btn" onClick={downloadCanvasToImage}>
+              <img
+                src={download}
+                alt="download_image"
+                className="w-3/5 h-3/5 object-contain"
+              />
+            </button>
           </motion.div>
         </>
       )}
